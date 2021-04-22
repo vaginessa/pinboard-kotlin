@@ -5,6 +5,7 @@ import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import com.fibelatti.pinboard.core.di.AppComponent
+import com.fibelatti.pinboard.features.share.ShareReceiverWorker
 import com.fibelatti.pinboard.features.sync.SyncBookmarksWorker
 
 class InjectingWorkerFactory(
@@ -20,6 +21,11 @@ class InjectingWorkerFactory(
             appContext,
             workerParameters,
             appComponent.postsRepository(),
+        )
+        ShareReceiverWorker::class.java.name -> ShareReceiverWorker(
+            appContext,
+            workerParameters,
+            appComponent.shareReceiver(),
         )
         else -> null
     }

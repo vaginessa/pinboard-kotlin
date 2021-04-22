@@ -207,6 +207,16 @@
     <string name="in_app_update_ready">An app update is ready to install</string>
     <string name="in_app_update_install">RESTART</string>
 
+    <!-- Push Notifications -->
+    <string name="push_notifications_channel_name_pending">Pending bookmarks</string>
+    <string name="push_notifications_channel_description_pending">Notifications used to display the progress of saving bookmarks shared to Pinkt</string>
+    <string name="push_notifications_channel_name_result">Saved bookmarks</string>
+    <string name="push_notifications_channel_description_result">Notifications used to display the result of saving bookmarks shared to Pinkt</string>
+    <string name="push_notifications_bookmark_pending">Saving %s to your bookmarks</string>
+    <string name="push_notifications_bookmark_saved">Bookmark saved successfully</string>
+    <string name="push_notifications_bookmark_notify">%s was saved to your bookmarks. Tap to view and edit</string>
+    <string name="push_notifications_bookmark_failed">Failed to save %s to your bookmarks</string>
+
     <!-- About -->
     <string name="about_share">Share Pinkt</string>
     <string name="about_rate">Rate Pinkt on Google Play</string>
@@ -230,5 +240,4 @@
     <string name="cd_empty_list_placeholder">Empty list placeholder image</string>
     <string name="cd_file">File icon</string>
     <string name="cd_warning">Warning</string>
-    <string name="cd_share_receiver_image">Adding bookmark to pinboard</string>
 </resources>

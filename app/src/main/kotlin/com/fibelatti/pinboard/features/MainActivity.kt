@@ -41,6 +41,7 @@ import com.fibelatti.pinboard.databinding.FragmentAuthBinding
 import com.fibelatti.pinboard.databinding.FragmentSplashBinding
 import com.fibelatti.pinboard.features.appstate.AddPostContent
 import com.fibelatti.pinboard.features.appstate.EditPostContent
+import com.fibelatti.pinboard.features.appstate.EditPostFromShare
 import com.fibelatti.pinboard.features.appstate.ExternalBrowserContent
 import com.fibelatti.pinboard.features.appstate.ExternalContent
 import com.fibelatti.pinboard.features.appstate.NavigateBack
@@ -54,6 +55,7 @@ import com.fibelatti.pinboard.features.appstate.SearchContent
 import com.fibelatti.pinboard.features.appstate.TagListContent
 import com.fibelatti.pinboard.features.appstate.UserPreferencesContent
 import com.fibelatti.pinboard.features.navigation.NavigationMenuFragment
+import com.fibelatti.pinboard.features.posts.domain.model.Post
 import com.fibelatti.pinboard.features.posts.presentation.PostListFragment
 import com.fibelatti.pinboard.features.splash.presentation.SplashFragment
 import com.fibelatti.pinboard.features.user.domain.LoginState
@@ -68,6 +70,7 @@ import kotlinx.coroutines.launch
 
 val Fragment.mainActivity: MainActivity? get() = activity as? MainActivity
 var Intent.fromBuilder by IntentDelegate.Boolean("FROM_BUILDER", false)
+var Intent.post by IntentDelegate.Parcelable<Post>("POST")
 
 class MainActivity : BaseActivity() {
 
@@ -188,6 +191,11 @@ class MainActivity : BaseActivity() {
             authViewModel.error.collect(::handleError)
         }
         lifecycleScope.launch {
+            val post = intent.post
+            if (intent.fromBuilder && post != null) {
+                appStateViewModel.runAction(EditPostFromShare(post))
+            }
+
             appStateViewModel.content.collect { content ->
                 if (isRecreating) {
                     isRecreating = false
@@ -353,5 +361,9 @@ class MainActivity : BaseActivity() {
         init {
             intent.fromBuilder = true
         }
+
+        fun newTask(): Builder = apply { intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
+
+        fun setPost(post: Post?): Builder = apply { intent.post = post }
     }
 }

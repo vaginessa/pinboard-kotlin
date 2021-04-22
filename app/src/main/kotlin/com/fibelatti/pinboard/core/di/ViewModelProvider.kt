@@ -7,7 +7,6 @@ import com.fibelatti.pinboard.features.posts.presentation.EditPostViewModel
 import com.fibelatti.pinboard.features.posts.presentation.PopularPostsViewModel
 import com.fibelatti.pinboard.features.posts.presentation.PostDetailViewModel
 import com.fibelatti.pinboard.features.posts.presentation.PostListViewModel
-import com.fibelatti.pinboard.features.share.ShareReceiverViewModel
 import com.fibelatti.pinboard.features.tags.presentation.TagsViewModel
 import com.fibelatti.pinboard.features.user.presentation.AuthViewModel
 import com.fibelatti.pinboard.features.user.presentation.UserPreferencesViewModel
@@ -22,7 +21,6 @@ interface ViewModelProvider {
     fun popularPostsViewModel(): PopularPostsViewModel
     fun postDetailsViewModel(): PostDetailViewModel
     fun postListViewModel(): PostListViewModel
-    fun shareReceiverViewModel(): ShareReceiverViewModel
     fun tagsViewModel(): TagsViewModel
     fun userPreferencesViewModel(): UserPreferencesViewModel
 }

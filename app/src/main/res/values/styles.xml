@@ -45,6 +45,10 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
     </style>
 
+    <style name="AppTheme.AppActivityNoAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
     <!-- User Feedback -->
     <style name="AppTheme.AlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="android:textColor">@color/text_primary</item>

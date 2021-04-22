@@ -31,6 +31,7 @@
         <activity
             android:name=".features.share.ShareReceiverActivity"
             android:label="@string/share_to_pinkt"
+            android:theme="@style/AppTheme.AppActivityNoAnimation"
             android:noHistory="true">
 
             <intent-filter>
