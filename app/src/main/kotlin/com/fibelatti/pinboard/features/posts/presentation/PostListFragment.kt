@@ -10,11 +10,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.transition.TransitionInflater
 import com.fibelatti.core.archcomponents.extension.activityViewModel
 import com.fibelatti.core.archcomponents.extension.viewModel
+import com.fibelatti.core.extension.afterTextChanged
 import com.fibelatti.core.extension.animateChangingTransitions
+import com.fibelatti.core.extension.applyAs
 import com.fibelatti.core.extension.doOnApplyWindowInsets
 import com.fibelatti.core.extension.exhaustive
 import com.fibelatti.core.extension.gone
 import com.fibelatti.core.extension.goneIf
+import com.fibelatti.core.extension.inflate
+import com.fibelatti.core.extension.isVisible
 import com.fibelatti.core.extension.shareText
 import com.fibelatti.core.extension.showStyledDialog
 import com.fibelatti.core.extension.visible
@@ -43,6 +47,8 @@ import com.fibelatti.pinboard.features.appstate.Private
 import com.fibelatti.pinboard.features.appstate.Public
 import com.fibelatti.pinboard.features.appstate.Recent
 import com.fibelatti.pinboard.features.appstate.Refresh
+import com.fibelatti.pinboard.features.appstate.RemoveSearchTag
+import com.fibelatti.pinboard.features.appstate.Search
 import com.fibelatti.pinboard.features.appstate.ShouldForceLoad
 import com.fibelatti.pinboard.features.appstate.ShouldLoadFirstPage
 import com.fibelatti.pinboard.features.appstate.ShouldLoadNextPage
@@ -53,9 +59,9 @@ import com.fibelatti.pinboard.features.appstate.Unread
 import com.fibelatti.pinboard.features.appstate.Untagged
 import com.fibelatti.pinboard.features.appstate.ViewCategory
 import com.fibelatti.pinboard.features.appstate.ViewPost
-import com.fibelatti.pinboard.features.appstate.ViewSearch
 import com.fibelatti.pinboard.features.mainActivity
 import com.fibelatti.pinboard.features.posts.domain.model.Post
+import com.fibelatti.pinboard.features.tags.domain.model.Tag
 import com.fibelatti.pinboard.features.user.presentation.UserPreferencesFragment
 import javax.inject.Inject
 import kotlinx.coroutines.delay
@@ -141,9 +147,6 @@ class PostListFragment @Inject constructor(
 
         binding.root.animateChangingTransitions()
 
-        binding.layoutSearchActive.buttonClearSearch.setOnClickListener {
-            appStateViewModel.runAction(ClearSearch)
-        }
         binding.layoutOfflineAlert.buttonRetryConnection.setOnClickListener {
             appStateViewModel.runAction(Refresh())
         }
@@ -181,6 +184,10 @@ class PostListFragment @Inject constructor(
             override fun onDeleteClicked(item: Post) {
                 deletePost(item)
             }
+        }
+
+        binding.layoutSearch.editTextSearchTerm.afterTextChanged {
+            appStateViewModel.runAction(Search(term = it))
         }
     }
 
@@ -263,15 +270,27 @@ class PostListFragment @Inject constructor(
             Syncing, Loaded -> showPosts(content)
         }.exhaustive
 
-        binding.layoutSearchActive.root.visibleIf(
-            content.searchParameters.isActive(),
-            otherwiseVisibility = View.GONE
-        )
         binding.layoutOfflineAlert.root.goneIf(
             content.isConnected,
             otherwiseVisibility = View.VISIBLE
         )
+
+        if (content.searchParameters.tags.isNotEmpty()) {
+            binding.layoutSearch.chipGroupSelectedTags.removeAllViews()
+            for (tag in content.searchParameters.tags) {
+                binding.layoutSearch.chipGroupSelectedTags.addView(createTagChip(tag))
+            }
+        } else {
+            binding.layoutSearch.chipGroupSelectedTags.removeAllViews()
+        }
     }
+
+    private fun createTagChip(value: Tag): View = binding.layoutSearch.chipGroupSelectedTags
+        .inflate(R.layout.list_item_chip, false)
+        .applyAs<View, TagChip> {
+            setValue(value)
+            setOnCloseIconClickListener { appStateViewModel.runAction(RemoveSearchTag(value)) }
+        }
 
     private fun getCategoryTitle(category: ViewCategory): String = when (category) {
         All -> getString(R.string.posts_title_all)
@@ -339,7 +358,14 @@ class PostListFragment @Inject constructor(
     private fun handleMenuClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menuItemSync -> appStateViewModel.runAction(Refresh(force = true))
-            R.id.menuItemSearch -> appStateViewModel.runAction(ViewSearch)
+            R.id.menuItemSearch -> {
+                if (binding.layoutSearch.root.isVisible()) {
+                    binding.layoutSearch.root.gone()
+                    appStateViewModel.runAction(ClearSearch)
+                } else {
+                    binding.layoutSearch.root.visible()
+                }
+            }
             R.id.menuItemSort -> appStateViewModel.runAction(ToggleSorting)
         }
 

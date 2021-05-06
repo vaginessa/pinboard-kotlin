@@ -159,7 +159,7 @@ class PostsDataSource @Inject constructor(
             )
         }
 
-        if (!connectivityInfoProvider.isConnected()) {
+        if (!connectivityInfoProvider.isConnected() || searchTerm.isNotEmpty() || !tags.isNullOrEmpty()) {
             emit(localData(true))
             return@flow
         }

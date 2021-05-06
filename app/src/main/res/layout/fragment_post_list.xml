@@ -9,33 +9,32 @@
     android:focusable="true">
 
     <include
-        android:id="@+id/layoutSearchActive"
-        layout="@layout/layout_search_active"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="@dimen/margin_regular"
-        android:layout_marginEnd="@dimen/margin_regular"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-    <include
         android:id="@+id/layoutOfflineAlert"
         layout="@layout/layout_offline_alert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutSearchActive"
         android:layout_marginStart="@dimen/margin_regular"
         android:layout_marginEnd="@dimen/margin_regular"
+        android:layout_alignParentTop="true"
         android:visibility="gone"
         tools:visibility="visible" />
+
+    <include
+        android:id="@+id/layoutSearch"
+        layout="@layout/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_regular"
+        android:layout_marginEnd="@dimen/margin_regular"
+        android:layout_alignParentTop="true"
+        android:layout_below="@+id/layoutOfflineAlert" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="@style/AppTheme.ProgressBarHorizontalStyle"
-        android:layout_below="@+id/layoutOfflineAlert"
         android:layout_marginStart="@dimen/margin_regular"
         android:layout_marginEnd="@dimen/margin_regular"
+        android:layout_below="@+id/layoutSearch"
         android:visibility="gone"
         tools:visibility="visible" />
 
@@ -56,10 +55,10 @@
             android:id="@+id/recyclerViewPosts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
+            android:paddingBottom="@dimen/fab_offset_bottom"
             android:paddingStart="@dimen/padding_regular"
             android:paddingEnd="@dimen/padding_regular"
-            android:paddingBottom="@dimen/fab_offset_bottom"
+            android:clipToPadding="false"
             tools:listitem="@layout/list_item_post" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -67,9 +66,9 @@
         android:id="@+id/imageViewAppLogo"
         android:layout_width="@dimen/clickable_area"
         android:layout_height="@dimen/clickable_area"
+        android:layout_marginBottom="@dimen/post_list_animation_logo_margin"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/post_list_animation_logo_margin"
         android:contentDescription="@string/cd_app_logo"
         android:elevation="@dimen/elevation_high"
         android:importantForAccessibility="no"

@@ -113,6 +113,7 @@ interface PostsDao {
 
         @JvmStatic
         fun preFormatTerm(term: String): String = term.remove("\"")
+            .trim()
             .takeIf(String::isNotBlank)
             ?.split(" ")
             ?.joinToString(separator = " NEAR ") { "$it*" }
