@@ -8,12 +8,20 @@
     android:clickable="true"
     android:focusable="true">
 
+    <com.fibelatti.pinboard.core.android.customview.SearchLayout
+        android:id="@+id/layoutSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/margin_regular"
+        android:layout_marginEnd="@dimen/margin_regular" />
+
     <include
         android:id="@+id/layoutSearchActive"
         layout="@layout/layout_search_active"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/layoutSearch"
         android:layout_marginStart="@dimen/margin_regular"
         android:layout_marginEnd="@dimen/margin_regular"
         android:visibility="gone"

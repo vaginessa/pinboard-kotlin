@@ -89,8 +89,12 @@
         <item name="android:padding">@dimen/padding_small</item>
     </style>
 
-    <style name="AppTheme.Button.Small">
+    <style name="AppTheme.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/text_size_xsmall</item>
+        <item name="android:padding">@dimen/padding_small</item>
     </style>
 
     <style name="AppTheme.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
