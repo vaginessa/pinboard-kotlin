@@ -52,5 +52,8 @@ jobs:
       - name: Setup Android Build
         uses: ./.github/actions/setup-android-build
 
+      - name: Accept Android licenses
+        run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
       - name: Run instrumented tests
         run: ./gradlew pixel2api30PinboardapiDebugAndroidTest
