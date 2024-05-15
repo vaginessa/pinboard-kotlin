@@ -60,7 +60,7 @@ jobs:
         uses: ./.github/actions/setup-android-build
 
       - name: Install GMD image
-        run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager "system-images;android-33;aosp_atd;x86_64"
+        run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager "system-images;android-33;aosp_atd;arm64-v8a"
 
       - name: Accept Android licenses
         run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
