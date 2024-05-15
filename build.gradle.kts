@@ -85,7 +85,7 @@ subprojects {
                     devices {
                         maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel6api33").apply {
                             device = "Pixel 6"
-                            apiLevel = 31
+                            apiLevel = 29
                             systemImageSource = "google"
                         }
                     }
